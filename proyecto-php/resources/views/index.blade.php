@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Angelos V.I.P - Licores Premium</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Estilos -->
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #0a0a0a;
+      color: #fff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background-color: #1a1a1a !important;
+      padding: 15px 30px;
+      border-radius: 12px;
+      margin: 10px 20px;
+    }
+
+    .navbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 1.4rem;
+      color: #fff !important;
+    }
+
+    .navbar-brand img {
+      height: 95px;
+    }
+
+    .nav-link {
+      color: #fff !important;
+      font-weight: 500;
+      margin-left: 20px;
+      transition: color 0.3s;
+    }
+
+    .nav-link:hover {
+      color: #FF63F9 !important;
+    }
+
+    /* HERO CARRUSEL */
+    #hero-carousel .carousel-item img {
+      height: 100vh;
+      object-fit: cover;
+    }
+
+    .carousel-caption {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center; /* Centrado */
+      text-align: center; /* Centrado del texto */
+      background: rgba(0,0,0,0.5);
+      padding: 30px;
+    }
+
+    .carousel-caption h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #FF63F9;
+    }
+
+    .carousel-caption h1 span {
+      color: #FF63F9;
+    }
+
+    .carousel-caption p {
+      color: #fff;
+      font-size: 1.1rem;
+      margin: 15px 0;
+    }
+
+    /* BOTONES */
+    .btn-custom {
+      display: inline-block;
+      border-radius: 30px;
+      padding: 12px 35px;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      margin: 5px;
+    }
+
+    .btn-explore {
+      background: linear-gradient(135deg, #FF63F9, #6A1B9A);
+      color: #fff;
+      border: none;
+      box-shadow: 0 4px 15px rgba(255, 99, 249, 0.4);
+    }
+
+    .btn-explore:hover {
+      background: linear-gradient(135deg, #6A1B9A, #FF63F9);
+      color: #fff;
+      transform: scale(1.05);
+    }
+
+    .btn-contact {
+      background: transparent;
+      border: 2px solid #ff00d4;
+      color: #ff00d4;
+    }
+
+    .btn-contact:hover {
+      background: #ff00d4;
+      color: #000;
+      transform: scale(1.05);
+    }
+
+    /* CENTRAR BOTONES */
+    .carousel-caption .btn-group {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    /* SECCION SERVICIOS */
+    .services {
+      background-color: #111;
+      padding: 80px 0;
+    }
+
+    .services h2 {
+      font-weight: 700;
+      margin-bottom: 40px;
+    }
+
+    .services h2 span {
+      color: #FF63F9;
+    }
+
+    .service-box {
+      background-color: #1a1a1a;
+      padding: 25px;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+      height: 100%;
+    }
+
+    .service-box:hover {
+      transform: translateY(-10px);
+    }
+
+    .service-box img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .service-box h5 {
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    .service-box p {
+      color: #bbb;
+    }
+
+    /* FOOTER */
+    footer {
+      background-color: #0a0a0a;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      color: #aaa;
+      border-top: 1px solid #222;
+    }
+
+    /* BOTÓN WHATSAPP */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: #fff;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
+      z-index: 999;
+      transition: transform 0.3s ease;
+    }
+
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="header_section">
+    <div class="container-fluid">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="{{ route('index') }}">
+            <img src="https://angelos.com.co/wp-content/uploads/2025/04/Logo.png" alt="Logo"> Angelos V.I.P
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item"><a class="nav-link" href="{{ route('index') }}">Inicio</a></li>
+              <li class="nav-item"><a class="nav-link" href="#servicios">Servicios</a></li>
+              <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+              <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+              <li class="nav-item">
+                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                  @csrf
+                  <button type="submit" class="nav-link btn btn-link" style="color:white; text-decoration:none;">
+                    Cerrar sesión
+                  </button>
+                </form>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO CARRUSEL -->
+  <section id="hero-carousel">
+    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2"></button>
+      </div>
+
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="https://angelos.com.co/wp-content/uploads/2022/04/DSC_0006-1.jpg" class="d-block w-100" alt="Slide 1">
+          <div class="carousel-caption">
+            <h1>Bienvenido a <span>Licores Premium</span></h1>
+            <p>Explora nuestra exclusiva selección de vinos y destilados de alta gama.</p>
+            <div class="btn-group">
+              <a href="{{ route('catalogo') }}" class="btn btn-custom btn-explore">Explorar</a>
+              <a href="#contacto" class="btn btn-custom btn-contact">Contáctanos</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://angelos.com.co/wp-content/uploads/2022/03/Pagina-web-04-1.png" class="d-block w-100" alt="Slide 2">
+          <div class="carousel-caption">
+            <h1>Bienvenido a <span>Licores Premium</span></h1>
+            <p>Disfruta de nuestros exclusivos productos y servicios VIP.</p>
+            <div class="btn-group">
+              <a href="{{ route('catalogo') }}" class="btn btn-custom btn-explore">Explorar</a>
+              <a href="#contacto" class="btn btn-custom btn-contact">Contáctanos</a>
+            </div>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="https://angelos.com.co/wp-content/uploads/2022/04/DSC_0154.jpg" class="d-block w-100" alt="Slide 3">
+          <div class="carousel-caption">
+            <h1>Bienvenido a <span>Licores Premium</span></h1>
+            <p>Conoce nuestras instalaciones y servicios exclusivos.</p>
+            <div class="btn-group">
+              <a href="{{ route('catalogo') }}" class="btn btn-custom btn-explore">Explorar</a>
+              <a href="#contacto" class="btn btn-custom btn-contact">Contáctanos</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+        <span class="visually-hidden">Anterior</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+        <span class="visually-hidden">Siguiente</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- SECCION SERVICIOS -->
+  <section id="servicios" class="services">
+    <div class="container">
+      <div class="text-center mb-5">
+        <h2>Nuestros <span>Servicios</span></h2>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="service-box text-center">
+            <img src="https://angelos.com.co/wp-content/uploads/2025/02/CARTA-2025-p3-scaled.jpg" alt="Variedad de licores">
+            <h5 class="mt-3">Variedad de licores</h5>
+            <p>Nuestra carta</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="service-box text-center">
+            <img src="https://angelos.com.co/wp-content/uploads/2022/12/DSC_0696-edit.png" alt="Hora Loca">
+            <img src="https://angelos.com.co/wp-content/uploads/2023/03/DSC_0002.jpg" alt="Hora Loca">
+            <img src="https://angelos.com.co/wp-content/uploads/2022/12/DSC_0766-edit.png" alt="Hora Loca">
+            <h5 class="mt-3">Hora Loca</h5>
+            <p>Hora loca de 7p.m. a 3 a.m.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="service-box text-center">
+            <img src="https://angelos.com.co/wp-content/uploads/2022/04/DSC_0003-1.jpg" alt="Promociones">
+            <img src="https://angelos.com.co/wp-content/uploads/2022/04/0F4A1789.jpg" alt="Promociones">
+            <img src="https://angelos.com.co/wp-content/uploads/2022/04/DSC01212.jpg" alt="Promociones">
+            <h5 class="mt-3">Nuestras instalaciones</h5>
+            <p>Conoce más sobre Nosotros</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    &copy; 2025 Angelos V.I.P. Todos los derechos reservados.
+  </footer>
+
+  <!-- BOTÓN WHATSAPP -->
+  <a href="https://wa.me/573505641330" target="_blank" class="whatsapp-float">
+    <i class="bi bi-whatsapp"></i>
+  </a>
+
+  <!-- Bootstrap & Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+  <script src="JS/index.js"></script>
+</body>
+</html>
