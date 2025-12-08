@@ -17,8 +17,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Factura {
-    @id
-    private Integer id;
+    @Id
+    @Column(name = "id_factura")
+    private Integer idFactura;
     private Date fecha;
     private String metodo_pago;
     private BigDecimal total;

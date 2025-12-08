@@ -18,7 +18,7 @@ public class FacturaDetalle {
     private Integer idFactDet;
 
     @ManyToOne
-    @JoinColumn(name = "factura_id", referencedColumnName = "idFact")
+    @JoinColumn(name = "factura_id", referencedColumnName = "idFactura")
     private Factura factura;
 
     @ManyToOne
