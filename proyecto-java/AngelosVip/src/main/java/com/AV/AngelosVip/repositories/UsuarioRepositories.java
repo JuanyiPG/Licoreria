@@ -1,6 +1,5 @@
 package com.AV.AngelosVip.repositories;
 
-import com.AV.AngelosVip.models.Licor;
 import com.AV.AngelosVip.models.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -16,6 +15,6 @@ public interface UsuarioRepositories extends JpaRepository<Usuario, Integer> {
             "LOWER(r.telefono) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
             "LOWER(r.direccion) LIKE LOWER (CONCAT('%', filtro, '%')) OR " +
             "LOWER(r.estadoUsuario) LIKE LOWER (CONCAT('%', filtro, '%')) OR ")
-    List<Licor> bucarVariosCampos(@Param("filtro") String filtro);
+    List<Usuario> bucarVariosCampos(@Param("filtro") String filtro);
 
 }
