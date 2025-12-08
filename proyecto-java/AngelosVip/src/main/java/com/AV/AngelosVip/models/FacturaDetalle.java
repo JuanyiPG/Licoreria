@@ -1,7 +1,6 @@
 package com.AV.AngelosVip.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,4 +13,16 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FacturaDetalle {
+    @Id
+    @Column(name = "id_facdet")
+    private Integer idFactDet;
+
+    @ManyToOne
+    @JoinColumn(name = "factura_id", referencedColumnName = "idFact")
+    private Factura factura;
+
+    @ManyToOne
+    @JoinColumn(name = "licor_id", referencedColumnName = "idLicor")
+    private Licor licor;
+
 }
