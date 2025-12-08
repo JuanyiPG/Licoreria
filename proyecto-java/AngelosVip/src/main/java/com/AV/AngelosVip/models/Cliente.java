@@ -19,13 +19,18 @@ public class Cliente {
     @Id
     @Column(name = "id_cliente")
     private Integer idCliente;
-    @DateTimeFormat(pattern = "YYYY/MM/DD")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Column(name = "fecha_nacimiento")
     private Date fechaNacimiento;
     private String direccion;
+    @Column(name = "numerto_tel")
     private String tel;
+    @Column(name = "tipo_id")
     private String tipoId;
+    @Column(name = "num_id")
     private String numId;
+    @Column(name = "nombre_usuario")
     private String nombreUsuario;
-    private String corro;
+    private String correo;
     private String contraseña;
 }

@@ -21,7 +21,7 @@ public class Factura {
     @Id
     @Column(name = "id_factura")
     private Integer idFactura;
-    @DateTimeFormat(pattern = "YYYY/MM/DD")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date fecha;
     private String metodo_pago;
     private BigDecimal total;
@@ -30,6 +30,6 @@ public class Factura {
     private BigDecimal subtotal;
 
     @ManyToOne
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id_usuarios")
     private Usuario usuario;
 }

@@ -36,7 +36,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<Cliente> orden() {
-        return clienteRepositories.findAllByOrderBynombreUsuarioAsc();
+        return clienteRepositories.findAllByOrderByNombreUsuarioAsc();
     }
 
     @Override

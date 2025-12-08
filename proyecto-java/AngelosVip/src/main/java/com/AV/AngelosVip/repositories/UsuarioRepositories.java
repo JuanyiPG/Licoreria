@@ -8,13 +8,15 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UsuarioRepositories extends JpaRepository<Usuario, Integer> {
-    List<Usuario> findAllByOrderByAsc();
-    @Query( "SELECT r FROM Usuario r WHERE" +
-            "LOWER(r.nombreUsuario) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
-            "LOWER(r.email) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
-            "LOWER(r.telefono) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
-            "LOWER(r.direccion) LIKE LOWER (CONCAT('%', filtro, '%')) OR " +
-            "LOWER(r.estadoUsuario) LIKE LOWER (CONCAT('%', filtro, '%')) OR ")
+    List<Usuario> findAllByOrderByNombreUsuariosAsc();
+    @Query("SELECT r FROM Usuario r WHERE " +
+            "LOWER(r.nombreUsuarios) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+            "LOWER(r.email) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+            "LOWER(r.telefono) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+            "LOWER(r.direccion) LIKE LOWER(CONCAT('%', :filtro, '%')) OR " +
+            "LOWER(r.estadoUsuario) LIKE LOWER(CONCAT('%', :filtro, '%'))")
     List<Usuario> bucarVariosCampos(@Param("filtro") String filtro);
+
+
 
 }

@@ -31,7 +31,7 @@ public class LicorServiceImpl  implements LicorService {
 
     @Override
     public List<Licor> orden(){
-        return licorRepositorio.findAllByOrderByFechanombreLicorAsc();
+        return licorRepositorio.findAllByOrderByNombreLicorAsc();
     }
 
     @Override

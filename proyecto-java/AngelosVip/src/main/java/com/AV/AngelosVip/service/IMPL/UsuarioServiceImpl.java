@@ -30,7 +30,7 @@ public class UsuarioServiceImpl  implements UsuarioService {
 
     @Override
     public List<Usuario> orden(){
-        return usuarioRepositorio.findAllByOrderByAsc();
+        return usuarioRepositorio.findAllByOrderByNombreUsuariosAsc();
     }
 
     @Override

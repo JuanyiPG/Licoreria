@@ -27,12 +27,12 @@ private String email;
 private String password;
 private String telefono;
 private String direccion;
-    @DateTimeFormat(pattern = "YYYY/MM/DD")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
 @Column(name = "fecha_inicio")
 private Date fechaInicio;
 @Column(name = "estado_usuario")
 private String estadoUsuario;
 @OneToOne
-@JoinColumn(name = "id_roles", referencedColumnName = "id_roles")
+@JoinColumn(name = "rol_id", referencedColumnName = "id_roles")
 private Rol rol;
 }

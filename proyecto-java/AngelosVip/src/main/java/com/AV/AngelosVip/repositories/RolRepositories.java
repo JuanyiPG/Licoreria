@@ -8,8 +8,8 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface RolRepositories extends JpaRepository<Rol, Integer> {
-    List<Rol> findAllByOrderBynombrerolAsc();
-    @Query( "SELECT r FROM Rol r WHERE" +
-            "LOWER(r.nombrerol) LIKE LOWER (CONCAT('%', :filtro, '%')) OR ")
+    List<Rol> findAllByOrderByNombrerolAsc();
+    @Query( "SELECT r FROM Rol r WHERE " +
+            "LOWER(r.nombrerol) LIKE LOWER (CONCAT('%', :filtro, '%'))")
     List<Rol> bucarVariosCampos(@Param("filtro") String filtro);
 }

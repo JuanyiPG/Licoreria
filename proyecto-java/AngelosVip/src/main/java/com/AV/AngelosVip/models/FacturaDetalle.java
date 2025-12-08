@@ -18,11 +18,11 @@ public class FacturaDetalle {
     private Integer idFactDet;
 
     @ManyToOne
-    @JoinColumn(name = "factura_id", referencedColumnName = "idFactura")
+    @JoinColumn(name = "factura_id", referencedColumnName = "id_factura")
     private Factura factura;
 
     @ManyToOne
-    @JoinColumn(name = "licor_id", referencedColumnName = "idLicor")
+    @JoinColumn(name = "licor_id", referencedColumnName = "id_licor")
     private Licor licor;
 
 }

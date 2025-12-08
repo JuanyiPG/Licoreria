@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface FacturaDetalleRepositories extends JpaRepository<FacturaDetalle, Integer> {
 
-    @Query("SELECT fd FROM FacturaDetalle fd HWERE " +
+    @Query("SELECT fd FROM FacturaDetalle fd WHERE " +
      "CAST(fd.idFactDet AS string) LIKE CONCAT('%', :filtro, '%')")
     List<FacturaDetalle> allcampos(@Param("filtro")String filtro);
 }

@@ -38,7 +38,7 @@ public class UsuarioController {
 
     @PostMapping("/guardar")
     public String guardar(Usuario usuario) {
-        Rol rolSeleccionado = rolService.buscarPorId(usuario.getRol().getId_roles());
+        Rol rolSeleccionado = rolService.buscarPorId(usuario.getRol().getIdroles());
         usuario.setRol(rolSeleccionado);
         usuarioService.guardar(usuario);
         return "redirect:registro?success=true";

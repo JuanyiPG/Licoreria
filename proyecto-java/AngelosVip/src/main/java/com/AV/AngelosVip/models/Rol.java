@@ -16,7 +16,8 @@ import lombok.Setter;
 public class Rol {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id_roles;
+    @Column(name = "id_roles")
+    private Integer idroles;
     @Column(name = "nombre_rol")
     private String nombrerol;
 }
