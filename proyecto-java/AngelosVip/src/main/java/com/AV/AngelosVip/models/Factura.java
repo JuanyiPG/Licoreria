@@ -26,7 +26,7 @@ public class Factura {
     private String metodo_pago;
     private BigDecimal total;
     private Integer cantidad;
-    private Boolean estado;
+    private String estado;
     private BigDecimal subtotal;
 
     @ManyToOne
