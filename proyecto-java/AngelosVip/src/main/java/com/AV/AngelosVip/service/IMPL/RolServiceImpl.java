@@ -41,4 +41,9 @@ public class RolServiceImpl implements RolService {
     public List<Rol> buscarvarioscampos(String filtro) {
         return rolRepositorio.bucarVariosCampos(filtro);
     }
+
+    @Override
+    public Rol buscarPorId(Integer id){
+        return rolRepositorio.findById(id).orElse(null);
+    }
 }

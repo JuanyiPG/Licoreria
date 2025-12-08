@@ -1,6 +1,7 @@
 package com.AV.AngelosVip.service;
 
 import com.AV.AngelosVip.models.Licor;
+import com.AV.AngelosVip.models.Rol;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,4 +13,5 @@ public interface LicorService {
     List<Licor> orden();
     List<Licor> listar();
     List<Licor> buscarvarioscampos(String filtro);
+    Licor buscarPorId(Integer id);
 }

@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Panel Administrador | Angelos V.I.P</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Fuente -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Icons opcional (pequeños iconos SVG de Bootstrap) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        :root{
+          --bg: #ffffff;                /* fondo principal cambiado a blanco */
+          --surface: #f7f7fb;           /* tarjetas / superficies suaves */
+          --muted: #6b6b78;
+          --text: #0b0b0b;
+          --accent: #FF63F9;            /* morado principal */
+          --accent-2: #7a2ad3;          /* morado secundario para gradientes */
+          --card-shadow: 0 8px 20px rgba(18,18,18,0.06);
+          --glass: rgba(255,255,255,0.6);
+          --success: #28a745;
+          --danger: #e55353;
+        }
+
+        /* Reset básico */
+        *{box-sizing:border-box}
+        html,body{height:100%}
+        body{
+          margin:0;
+          font-family:"Montserrat",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+          background:var(--bg);
+          color:var(--text);
+          -webkit-font-smoothing:antialiased;
+          -moz-osx-font-smoothing:grayscale;
+          line-height:1.4;
+        }
+
+        /* Layout: sidebar + main */
+        .app {
+          display:flex;
+          min-height:100vh;
+          gap:24px;
+        }
+
+        /* SIDEBAR */
+        .sidebar{
+          width:260px;
+          background:linear-gradient(180deg,var(--surface),#fff);
+          border-right:1px solid rgba(15,15,15,0.03);
+          padding:22px;
+          display:flex;
+          flex-direction:column;
+          gap:18px;
+        }
+        .brand{
+          display:flex;
+          gap:12px;
+          align-items:center;
+        }
+        .brand img{ width:52px; height:auto; border-radius:8px; }
+        .brand h3{ margin:0; font-size:18px; color:var(--accent); letter-spacing:0.2px; }
+        .nav-section{ margin-top:6px; display:flex; flex-direction:column; gap:6px; }
+        .nav-link{
+          display:flex;
+          gap:12px;
+          align-items:center;
+          padding:10px 12px;
+          border-radius:10px;
+          color:var(--text);
+          text-decoration:none;
+          font-weight:600;
+          transition: all .14s ease;
+        }
+        .nav-link i{ font-size:18px; color:var(--muted); width:18px; text-align:center; }
+        .nav-link:hover{ background: rgba(255,99,249,0.06); transform: translateY(-2px); color:var(--accent-2); }
+        .nav-link.active{ background: linear-gradient(90deg, rgba(255,99,249,0.08), rgba(122,42,211,0.04)); box-shadow: var(--card-shadow); color:var(--accent-2); }
+
+        .sidebar .small{ font-size:12px; color:var(--muted); margin-top:6px; }
+
+        /* MAIN AREA */
+        .main{
+          flex:1;
+          display:flex;
+          flex-direction:column;
+          gap:18px;
+        }
+
+        /* TOPBAR */
+        header.topbar{
+          display:flex;
+          align-items:center;
+          justify-content:space-between;
+          padding:18px 22px;
+          background:transparent;
+          border-bottom:1px solid rgba(15,15,15,0.03);
+        }
+        .search-wrap{
+          display:flex;
+          gap:12px;
+          align-items:center;
+        }
+        .search {
+          display:flex;
+          align-items:center;
+          gap:10px;
+          background:var(--surface);
+          padding:8px 12px;
+          border-radius:12px;
+          min-width:320px;
+          box-shadow: 0 6px 18px rgba(10,10,10,0.03);
+        }
+        .search input{
+          border:0;
+          background:transparent;
+          outline:none;
+          color:var(--text);
+          font-weight:600;
+          width:100%;
+        }
+        .top-actions{ display:flex; align-items:center; gap:12px; }
+
+        .avatar{
+          width:44px; height:44px; border-radius:10px;
+          background:linear-gradient(90deg,var(--accent),var(--accent-2));
+          display:flex; align-items:center; justify-content:center; color:#fff; font-weight:700;
+          box-shadow: 0 6px 18px rgba(122,42,211,0.08);
+        }
+
+        /* DASHBOARD GRID */
+        .dashboard{
+          padding:22px;
+          display:grid;
+          grid-template-columns: 1fr 360px;
+          gap:22px;
+        }
+
+        /* Cards */
+        .cards {
+          display:grid;
+          grid-template-columns: repeat(4, 1fr);
+          gap:12px;
+          margin-bottom:14px;
+        }
+        .card {
+          background:var(--surface);
+          padding:14px;
+          border-radius:12px;
+          box-shadow: var(--card-shadow);
+          display:flex;
+          flex-direction:column;
+          gap:8px;
+        }
+        .metric {
+          font-size:13px;
+          color:var(--muted);
+        }
+        .value {
+          font-size:20px;
+          font-weight:700;
+          color:var(--text);
+        }
+        .accent-badge{
+          background:linear-gradient(90deg,var(--accent),var(--accent-2));
+          color:white;
+          padding:6px 10px;
+          border-radius:999px;
+          font-weight:700;
+          font-size:13px;
+          display:inline-block;
+          box-shadow: 0 6px 18px rgba(255,99,249,0.1);
+        }
+
+        /* Charts area */
+        .panel {
+          background:var(--surface);
+          padding:16px;
+          border-radius:12px;
+          box-shadow: var(--card-shadow);
+        }
+        .panel h3{ margin:0 0 12px 0; color:var(--accent-2); }
+
+        .charts-grid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+
+        /* TABLES / LISTS */
+        .table-wrap{ margin-top:12px; overflow:auto; }
+        table {
+          width:100%;
+          border-collapse: collapse;
+          font-size:14px;
+        }
+        thead th{
+          text-align:left;
+          font-weight:700;
+          padding:10px 8px;
+          color:var(--muted);
+          font-size:12px;
+          text-transform:uppercase;
+          letter-spacing:0.6px;
+        }
+        tbody tr{ border-top:1px solid rgba(10,10,10,0.04); }
+        tbody td{ padding:12px 8px; color:var(--text); vertical-align:middle; }
+        .badge {
+          padding:6px 8px;
+          border-radius:8px;
+          font-weight:700;
+          font-size:12px;
+          display:inline-block;
+        }
+        .badge.paid{ background: linear-gradient(90deg,#dfe8ff,#c6b0ff); color:#211; }
+        .badge.pending{ background:#fff4f8; color:#8a2ad3; border:1px solid rgba(122,42,211,0.06); }
+        .status-delivered{ color:var(--success); font-weight:700; }
+        .status-cancel{ color:var(--danger); font-weight:700; }
+
+        /* RESPONSIVE */
+        @media (max-width: 1024px){
+          .dashboard{ grid-template-columns: 1fr; }
+          .cards { grid-template-columns: repeat(2,1fr); }
+          .sidebar{ display:none; } /* esconder sidebar en pantallas pequeñas por simplicidad */
+        }
+
+        @media (max-width: 600px){
+          .cards { grid-template-columns: 1fr; }
+          .search { min-width: 160px; }
+        }
+    </style>
+</head>
+<body>
+<div class="app">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" role="navigation" aria-label="Menú lateral">
+        <div class="brand">
+            <img src="https://angelos.com.co/wp-content/uploads/2025/04/Logo.png" alt="Logo">
+            <div>
+                <h3>Angelos V.I.P</h3>
+                <div class="small">Panel administrador</div>
+            </div>
+        </div>
+
+        <nav class="nav-section" aria-label="Secciones">
+            <a href="{{ route('inicio') }}" class="nav-link active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+            <a href="#" class="nav-link"><i class="bi bi-box-seam"></i> Productos</a>
+            <a href="#" class="nav-link"><i class="bi bi-cart-check"></i> Ventas</a>
+            <a href="#" class="nav-link"><i class="bi bi-people"></i> Usuarios</a>
+            <a href="#" class="nav-link"><i class="bi bi-gear"></i> Ajustes</a>
+        </nav>
+
+        <div class="small">Acciones rápidas</div>
+        <div style="display:flex; gap:8px;">
+            <button style="flex:1; padding:10px; border-radius:10px; border:0; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; font-weight:700; cursor:pointer;">
+                <i class="bi bi-plus-lg"></i> Nuevo producto
+            </button>
+        </div>
+
+        <div style="margin-top:auto;">
+            <div class="small">Versión</div>
+            <div style="font-weight:700; margin-top:6px;">v1.0.0</div>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <div class="main">
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="search-wrap">
+                <div style="display:flex; align-items:center; gap:14px;">
+                    <h2 style="margin:0; color:var(--accent-2); font-size:20px;">Panel Admin</h2>
+                    <div style="color:var(--muted); font-weight:600;">Angelos V.I.P — Panel de control</div>
+                </div>
+            </div>
+
+            <div class="top-actions">
+                <div class="search" role="search" aria-label="Buscar">
+                    <i class="bi bi-search" style="color:var(--muted)"></i>
+                    <input placeholder="Buscar pedidos, usuarios o productos..." aria-label="Buscar" />
+                </div>
+
+                <div style="display:flex; gap:12px; align-items:center;">
+                    <button title="Notificaciones" style="background:transparent;border:0;cursor:pointer;font-size:18px;color:var(--muted)"><i class="bi bi-bell"></i></button>
+
+                    <div class="avatar">AV</div>
+                    <div style="text-align:right;">
+                        <div style="font-weight:700">Admin</div>
+                        <div style="font-size:12px;color:var(--muted)">admin@angelos.co</div>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- DASHBOARD -->
+        <section class="dashboard" aria-labelledby="dashboardTitle">
+            <div>
+                <!-- Quick metrics -->
+                <div class="cards" role="list">
+                    <div class="card" role="listitem">
+                        <div class="metric">Total Ventas (últimos 30 días)</div>
+                        <div class="value">$ <span id="metric-sales">24.860</span></div>
+                        <div style="margin-top:8px;"><span class="accent-badge">+12% vs mes anterior</span></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="metric">Pedidos Hoy</div>
+                        <div class="value"><span id="metric-orders">42</span></div>
+                        <div style="margin-top:8px; color:var(--muted)">En espera: 6</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="metric">Productos</div>
+                        <div class="value"><span id="metric-products">128</span></div>
+                        <div style="margin-top:8px; color:var(--muted)">Bajo stock: 4</div>
+                    </div>
+
+                    <div class="card">
+                        <div class="metric">Usuarios</div>
+                        <div class="value"><span id="metric-users">3.412</span></div>
+                        <div style="margin-top:8px; color:var(--muted)">Activos hoy: 120</div>
+                    </div>
+                </div>
+
+                <!-- Sales + top products -->
+                <div class="panel" role="region" aria-label="Gráficas de ventas">
+                    <h3 id="dashboardTitle">Visión general</h3>
+
+                    <div class="charts-grid" style="margin-bottom:12px;">
+                        <div>
+                            <canvas id="salesChart" style="width:100%; height:240px;"></canvas>
+                        </div>
+                        <div>
+                            <canvas id="categoryChart" style="width:100%; height:240px;"></canvas>
+                        </div>
+                    </div>
+
+                    <div style="display:flex; gap:12px; align-items:center; justify-content:space-between; margin-top:8px;">
+                        <div style="color:var(--muted)">Datos de muestra. Conecta con tu backend para datos reales.</div>
+                        <div>
+                            <button style="background:transparent;border:1px solid rgba(122,42,211,0.08); padding:8px 12px; border-radius:10px; font-weight:700; color:var(--accent-2);">Exportar CSV</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent orders table -->
+                <div class="panel" style="margin-top:12px;">
+                    <h3>Pedidos recientes</h3>
+                    <div class="table-wrap" role="table" aria-label="Pedidos recientes">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th># Pedido</th>
+                                <th>Cliente</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
+                                <th>Estado</th>
+                                <th>Acción</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>4521</td>
+                                <td>Laura M.</td>
+                                <td>2025-09-18</td>
+                                <td>$120.000</td>
+                                <td><span class="badge paid">Pagado</span></td>
+                                <td><button style="background:var(--accent);border:0;padding:6px 10px;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">Ver</button></td>
+                            </tr>
+                            <tr>
+                                <td>4519</td>
+                                <td>Carlos R.</td>
+                                <td>2025-09-18</td>
+                                <td>$65.000</td>
+                                <td><span class="badge pending">Pendiente</span></td>
+                                <td><button style="background:#7a2ad3;border:0;padding:6px 10px;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">Gestionar</button></td>
+                            </tr>
+                            <tr>
+                                <td>4515</td>
+                                <td>Ana P.</td>
+                                <td>2025-09-17</td>
+                                <td>$240.000</td>
+                                <td><span class="badge paid">Pagado</span></td>
+                                <td><button style="background:var(--accent);border:0;padding:6px 10px;border-radius:8px;color:#fff;font-weight:700;cursor:pointer">Ver</button></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT COLUMN: panel rápido -->
+            <aside style="display:flex; flex-direction:column; gap:12px;">
+                <div class="panel">
+                    <h3>Atajos</h3>
+                    <div style="display:flex; flex-direction:column; gap:8px; margin-top:8px;">
+                        <button style="padding:10px;border-radius:10px;border:1px dashed rgba(122,42,211,0.08);background:#fff;color:var(--accent-2);font-weight:700;cursor:pointer">Crear promoción</button>
+                        <button style="padding:10px;border-radius:10px;border:0;background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;font-weight:700;cursor:pointer">Subir inventario</button>
+                        <button style="padding:10px;border-radius:10px;border:1px solid rgba(10,10,10,0.06);background:transparent;color:var(--muted);font-weight:700;cursor:pointer">Exportar reportes</button>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Usuarios recientes</h3>
+                    <div style="display:flex; flex-direction:column; gap:10px; margin-top:10px;">
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <div style="width:42px;height:42px;border-radius:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700">JM</div>
+                            <div>
+                                <div style="font-weight:700">Juan M.</div>
+                                <div style="font-size:12px;color:var(--muted)">juan@mail.com</div>
+                            </div>
+                        </div>
+
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <div style="width:42px;height:42px;border-radius:10px;background:#e9e5ff;display:flex;align-items:center;justify-content:center;color:var(--accent-2);font-weight:700">LP</div>
+                            <div>
+                                <div style="font-weight:700">Luisa P.</div>
+                                <div style="font-size:12px;color:var(--muted)">luisa@mail.com</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <h3>Actividad</h3>
+                    <div style="font-size:13px;color:var(--muted); margin-top:8px;">
+                        Última compra: <strong>2025-09-18</strong><br/>
+                        Pedidos pendientes: <strong>6</strong><br/>
+                        Tickets abiertos: <strong>1</strong>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+    </div>
+</div>
+
+<!-- SCRIPTS: gráficos e interactividad mínima -->
+<script>
+    // -- Sales chart (line)
+    const salesCtx = document.getElementById('salesChart').getContext('2d');
+    const salesChart = new Chart(salesCtx, {
+      type: 'line',
+      data: {
+        labels: ['Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep'],
+        datasets: [{
+          label: 'Ventas ($)',
+          data: [8000, 12000, 15000, 14000, 18000, 24860],
+          backgroundColor: 'rgba(255,99,249,0.12)',
+          borderColor: '#FF63F9',
+          pointBackgroundColor: '#7a2ad3',
+          tension: 0.35,
+          fill: true,
+          pointRadius: 4,
+          borderWidth: 2
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false },
+          tooltip: { mode: 'index', intersect: false }
+        },
+        scales: {
+          x: { grid: { display:false }, ticks: { color: '#444' } },
+          y: { ticks: { color: '#444' }, grid: { color: 'rgba(15,15,15,0.03)' } }
+        }
+      }
+    });
+
+    // -- Category / product mix (doughnut)
+    const catCtx = document.getElementById('categoryChart').getContext('2d');
+    const categoryChart = new Chart(catCtx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Whisky','Ron','Vodka','Tequila','Cerveza'],
+        datasets: [{
+          data: [28,16,14,12,30],
+          backgroundColor: ['#FF63F9','#C084FC','#A78BFA','#7c3aed','#6d28d9']
+        }]
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { position: 'bottom', labels: { color: '#444' } }
+        }
+      }
+    });
+
+    // Simple dynamic sample: update metrics from chart last value
+    document.getElementById('metric-sales').textContent = salesChart.data.datasets[0].data.slice(-1)[0].toLocaleString();
+    document.getElementById('metric-orders').textContent = 42;
+    document.getElementById('metric-products').textContent = 128;
+    document.getElementById('metric-users').textContent = 3412;
+</script>
+</body>
+</html>

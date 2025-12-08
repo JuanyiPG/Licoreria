@@ -2,6 +2,7 @@ package com.AV.AngelosVip.service.IMPL;
 
 
 import com.AV.AngelosVip.models.FacturaDetalle;
+import com.AV.AngelosVip.models.Usuario;
 import com.AV.AngelosVip.repositories.FacturaDetalleRepositories;
 import com.AV.AngelosVip.service.FacturaDetalleService;
 import jakarta.transaction.Transactional;
@@ -34,5 +35,9 @@ public class FacturaDetallerServiceImpl implements FacturaDetalleService {
     @Override
     public List<FacturaDetalle> allcampos(String filtro){
         return facturaDetalleRepositories.allcampos(filtro);
+    }
+    @Override
+    public FacturaDetalle buscarPorId(Integer id){
+        return facturaDetalleRepositories.findById(id).orElse(null);
     }
 }

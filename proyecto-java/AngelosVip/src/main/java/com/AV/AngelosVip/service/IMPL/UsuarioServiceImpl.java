@@ -42,4 +42,9 @@ public class UsuarioServiceImpl  implements UsuarioService {
     public List<Usuario> buscarvarioscampos(String filtro){
         return usuarioRepositorio.bucarVariosCampos(filtro);
     }
+
+    @Override
+    public Usuario buscarPorId(Integer id){
+        return usuarioRepositorio.findById(id).orElse(null);
+    }
 }

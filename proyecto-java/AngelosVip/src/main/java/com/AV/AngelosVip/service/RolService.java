@@ -13,4 +13,5 @@ public interface RolService {
     List<Rol> listar();
     List<Rol> orden();
     List<Rol> buscarvarioscampos(String filtro);
+    Rol buscarPorId(Integer id);
 }

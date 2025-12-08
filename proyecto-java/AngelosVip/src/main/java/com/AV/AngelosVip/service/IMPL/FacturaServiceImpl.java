@@ -1,6 +1,7 @@
 package com.AV.AngelosVip.service.IMPL;
 
 import com.AV.AngelosVip.models.Factura;
+import com.AV.AngelosVip.models.Usuario;
 import com.AV.AngelosVip.repositories.FacturaRepositories;
 import com.AV.AngelosVip.service.FacturaService;
 import jakarta.transaction.Transactional;
@@ -36,5 +37,9 @@ public class FacturaServiceImpl implements FacturaService{
     @Override
     public void Eliminar(Integer id){
         facturaRepositorio.deleteById(id);
+    }
+    @Override
+    public Factura buscarPorId(Integer id){
+        return facturaRepositorio.findById(id).orElse(null);
     }
 }

@@ -1,6 +1,7 @@
 package com.AV.AngelosVip.service.IMPL;
 
 import com.AV.AngelosVip.models.Licor;
+import com.AV.AngelosVip.models.Usuario;
 import com.AV.AngelosVip.repositories.LicorRepositories;
 import com.AV.AngelosVip.service.LicorService;
 import jakarta.transaction.Transactional;
@@ -41,5 +42,10 @@ public class LicorServiceImpl  implements LicorService {
     @Override
     public List<Licor> buscarvarioscampos(String filtro){
         return licorRepositorio.bucarVariosCampos(filtro);
+    }
+
+    @Override
+    public Licor buscarPorId(Integer id){
+        return licorRepositorio.findById(id).orElse(null);
     }
 }
