@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface RolRepositories extends JpaRepository<Rol, Integer> {
     List<Rol> findAllByOrderBynombrerolAsc();
-    List<Rol> listar();
     @Query( "SELECT r FROM Rol r WHERE" +
             "LOWER(r.nombrerol) LIKE LOWER (CONCAT('%', :filtro, '%')) OR ")
     List<Licor> bucarVariosCampos(@Param("filtro") String filtro);

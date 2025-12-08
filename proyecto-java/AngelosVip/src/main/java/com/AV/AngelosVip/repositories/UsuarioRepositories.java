@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface UsuarioRepositories extends JpaRepository<Usuario, Integer> {
     List<Usuario> findAllByOrderByAsc();
-    List<Usuario> listar();
     @Query( "SELECT r FROM Usuario r WHERE" +
             "LOWER(r.nombreUsuario) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
             "LOWER(r.email) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +

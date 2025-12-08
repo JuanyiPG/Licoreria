@@ -9,7 +9,6 @@ import java.util.List;
 
 public interface LicorRepositories extends JpaRepository <Licor, Integer>{
 List<Licor> findAllByOrderByFechanombreLicorAsc();
-List<Licor> listar();
 @Query( "SELECT r FROM Licor r WHERE" +
         "LOWER(r.nombreLicor) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
         "LOWER(r.marca) LIKE LOWER (CONCAT('%', :filtro, '%')) OR " +
