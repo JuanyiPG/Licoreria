@@ -24,7 +24,8 @@ private String email;
 private String password;
 private String telefono;
 private String direccion;
-private String estado_usuario;
+@Column(name = "estado_usuario")
+private String estadoUsuario;
 
 @OneToOne
 @JoinColumn(name = "id_roles", referencedColumnName = "id_roles")
