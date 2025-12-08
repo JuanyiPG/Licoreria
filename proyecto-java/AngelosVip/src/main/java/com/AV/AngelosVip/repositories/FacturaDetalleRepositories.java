@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
-public interface FacturaDetalleRepositories extends JpaRepository<Factura, Integer> {
+public interface FacturaDetalleRepositories extends JpaRepository<FacturaDetalle, Integer> {
 
     @Query("SELECT fd FROM FacturaDetalle fd HWERE " +
      "CAST(fd.idFactDet AS string) LIKE CONCAT('%', :filtro, '%')")

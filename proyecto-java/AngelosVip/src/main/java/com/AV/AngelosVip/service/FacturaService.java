@@ -1,13 +1,15 @@
 package com.AV.AngelosVip.service;
 
 import com.AV.AngelosVip.models.Factura;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface FacturaService {
-    List<Factura> findAllByOrderByFechaAsc();
+    List<Factura> ordenAsc();
     List<Factura> listar();
     List<Factura> allcampos(String filtro);
-    List<Factura> guardar(Factura factura);
+    Factura guardar(Factura factura);
     void Eliminar(Integer Id);
 }
