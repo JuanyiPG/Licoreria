@@ -2,6 +2,7 @@ package com.AV.AngelosVip.service.IMPL;
 
 import com.AV.AngelosVip.models.Cliente;
 import com.AV.AngelosVip.models.Rol;
+import com.AV.AngelosVip.models.Usuario;
 import com.AV.AngelosVip.repositories.ClienteRepositories;
 import com.AV.AngelosVip.service.ClienteService;
 import jakarta.transaction.Transactional;
@@ -41,5 +42,10 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     public List<Cliente> buscarvarioscampos(String filtro) {
         return clienteRepositories.allcampos(filtro);
+    }
+
+    @Override
+    public Cliente buscarPorId(Integer id){
+        return clienteRepositories.findById(id).orElse(null);
     }
 }
