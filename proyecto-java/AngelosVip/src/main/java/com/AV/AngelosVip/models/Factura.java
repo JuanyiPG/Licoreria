@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Factura {
     @Id
     @Column(name = "id_factura")
     private Integer idFactura;
+    @DateTimeFormat(pattern = "YYYY/MM/DD")
     private Date fecha;
     private String metodo_pago;
     private BigDecimal total;
