@@ -17,22 +17,27 @@ public class RolServiceImpl implements RolService {
         this.rolRepositorio = rolRepositorio;
     }
 
+    @Override
     public Rol guardar(Rol rol){
         return rolRepositorio.save(rol);
     }
 
+    @Override
     public void eliminar(Integer id) {
         rolRepositorio.deleteById(id);
     }
 
+    @Override
     public List<Rol> listar(){
         return rolRepositorio.findAll();
     }
 
+    @Override
     public List<Rol> orden() {
         return rolRepositorio.findAllByOrderBynombrerolAsc();
     }
 
+    @Override
     public List<Rol> buscarvarioscampos(String filtro) {
         return rolRepositorio.bucarVariosCampos(filtro);
     }

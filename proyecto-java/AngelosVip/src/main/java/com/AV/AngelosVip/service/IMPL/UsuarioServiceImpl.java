@@ -14,26 +14,31 @@ import java.util.List;
 public class UsuarioServiceImpl  implements UsuarioService {
     private final UsuarioRepositories usuarioRepositorio;
 
+
     public UsuarioServiceImpl(UsuarioRepositories usuarioRepositorio) {
         this.usuarioRepositorio = usuarioRepositorio;
     }
-
+    @Override
     public Usuario guardar(Usuario usuario){
         return usuarioRepositorio.save(usuario);
     }
 
+    @Override
     public void eliminar(Integer id){
         usuarioRepositorio.deleteById(id);
     }
 
+    @Override
     public List<Usuario> orden(){
         return usuarioRepositorio.findAllByOrderByAsc();
     }
 
+    @Override
     public List<Usuario> listar(){
         return usuarioRepositorio.findAll();
     }
 
+    @Override
     public List<Usuario> buscarvarioscampos(String filtro){
         return usuarioRepositorio.bucarVariosCampos(filtro);
     }

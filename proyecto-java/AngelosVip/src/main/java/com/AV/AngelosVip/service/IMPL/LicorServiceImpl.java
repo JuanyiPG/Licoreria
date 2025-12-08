@@ -18,23 +18,27 @@ public class LicorServiceImpl  implements LicorService {
         this.licorRepositorio = licorRepositorio;
     }
 
-
+    @Override
     public Licor guardar(Licor licor){
         return licorRepositorio.save(licor);
     }
 
+    @Override
     public void eliminar(Integer id){
         licorRepositorio.deleteById(id);
     }
 
+    @Override
     public List<Licor> orden(){
         return licorRepositorio.findAllByOrderByFechanombreLicorAsc();
     }
 
+    @Override
     public List<Licor> listar(){
         return licorRepositorio.findAll();
     }
 
+    @Override
     public List<Licor> buscarvarioscampos(String filtro){
         return licorRepositorio.bucarVariosCampos(filtro);
     }
