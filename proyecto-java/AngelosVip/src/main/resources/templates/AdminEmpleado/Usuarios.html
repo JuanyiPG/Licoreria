@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -112,33 +112,58 @@
 
 <div class="container">
     <h2>Formulario de Usuarios</h2>
-    <form id="employeeForm" action="#" method="post">
+    <form id="employeeForm" th:action="@{/registro/guardar}" method="post" th:object="${usuario}">
         <div class="form-group">
             <label for="name">Nombre Completo</label>
-            <input type="text" id="name" name="name" placeholder="Ej: Laura Gómez" maxlength="100" required />
+            <input type="text" id="name" name="name" placeholder="Ej: Laura Gómez" th:field="*{nombreUsuarios}" maxlength="100" required />
             <div class="error" id="nameError"></div>
         </div>
 
         <div class="form-group">
             <label for="email">Correo Electrónico</label>
-            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" maxlength="100" required />
+            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" th:field="*{email}" maxlength="100" required />
             <div class="error" id="emailError"></div>
         </div>
 
         <div class="form-group">
             <label for="phone">Teléfono</label>
-            <input type="tel" id="phone" name="phone" placeholder="3214567890" required />
+            <input type="tel" id="phone" name="phone" placeholder="3214567890" th:field="*{telefono}" required />
             <div class="error" id="phoneError"></div>
         </div>
 
         <div class="form-group">
+            <label for="direccion">Direccion</label>
+            <input type="text" id="direccion" name="direccion" placeholder="caller 32 #12b este" th:field="*{direccion}" required />
+            <div class="error" id="direccionerror"></div>
+        </div>
+
+        <div class="form-group">
             <label for="startDate">Fecha de Inicio</label>
-            <input type="date" id="startDate" name="startDate" required />
+            <input type="date" id="startDate" name="startDate" th:field="*{fechaInicio}" required />
             <div class="error" id="startDateError"></div>
         </div>
 
         <div class="form-group">
-            <button type="submit">Registrar</button>
+            <label for="contraseña">Contraseña</label>
+            <input type="password" id="contraseña" name="contraseña" placeholder="" th:field="*{password}" required />
+            <div class="error" id="contraseñaError"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="estado">Estado</label>
+            <input type="text" id="estado" name="contraseña" placeholder="Activo/Inactivo" th:field="*{estadoUsuario}" required />
+            <div class="error" id="estadoerror"></div>
+        </div>
+
+        <div class="form-group">
+        <select th:field="*{rol.idroles}" required style="border-radius:8px">
+            <option th:each="r : ${roles}" th:value="${r.idroles}" th:text="${r.nombrerol}"></option>
+        </select>
+        </div>
+
+
+        <div class="form-group">
+            <button type="submit" style="margin-top: 10px">Registrar</button>
         </div>
     </form>
 </div>
@@ -156,7 +181,9 @@
                 <th>Nombre</th>
                 <th>Correo</th>
                 <th>Teléfono</th>
-                <th>Fecha de Ingreso</th>
+                <th>Dirección</th>
+                <th>Fecha de Inicio</th>
+                <th>Estado</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -164,26 +191,18 @@
             <!-- Aquí agregaremos las nuevas filas con JS -->
             </tbody>
             <tbody>
-            <tr>
-                <td>1</td>
-                <td>Laura Gómez</td>
-                <td>laura@gmail.com</td>
-                <td>3214567890</td>
-                <td>2024-06-01</td>
+            <tr th:each="r : ${usuarios}">
+                <td th:text="${r.idUsuarios}"></td>
+                <td th:text="${r.nombreUsuarios}"></td>
+                <td th:text="${r.email}"></td>
+                <td th:text="${r.telefono}"></td>
+                <td th:text="${r.direccion}"></td>
+                <td th:text="${r.fechaInicio}"></td>
+                <td th:text="${r.estadoUsuario}"></td>
+                <td th:text="${r.rol.nombrerol}"></td>
                 <td>
-                    <button class="btn btn-sm btn-outline-light me-1">✏️</button>
-                    <button class="btn btn-sm btn-outline-danger">🗑️</button>
-                </td>
-            </tr>
-            <tr>
-                <td>2</td>
-                <td>Carlos Ruiz</td>
-                <td>carlos@zoo.com</td>
-                <td>3009876543</td>
-                <td>2023-11-20</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-light me-1">✏️</button>
-                    <button class="btn btn-sm btn-outline-danger">🗑️</button>
+                    <a class="btn-accion" th:href="@{'/registro/editar/' + ${r.idUsuarios}}">Actualizar</a>
+                    <a class="btn-eliminar" th:href="@{'/registro/eliminar/' + ${r.idUsuarios}}" style="margin-top: 10px">Eliminar</a>
                 </td>
             </tr>
             </tbody>

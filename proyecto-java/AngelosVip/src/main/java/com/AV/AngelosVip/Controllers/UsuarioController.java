@@ -7,11 +7,12 @@ import com.AV.AngelosVip.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 @Controller
-@RequestMapping("Registro")
+@RequestMapping("/registro")
 public class UsuarioController {
     private final UsuarioService usuarioService;
     private final RolService rolService;
@@ -26,7 +27,7 @@ public class UsuarioController {
         List<Usuario> usuarios = usuarioService.orden();
         model.addAttribute("usuarios", usuarios);
         model.addAttribute("usuario", new Usuario());
-        model.addAttribute("rol", rolService.listar());
+        model.addAttribute("roles", rolService.listar());
         return "AdminEmpleado/Usuarios";
     }
 
@@ -37,12 +38,32 @@ public class UsuarioController {
     }
 
     @PostMapping("/guardar")
-    public String guardar(Usuario usuario) {
-        Rol rolSeleccionado = rolService.buscarPorId(usuario.getRol().getIdroles());
-        usuario.setRol(rolSeleccionado);
-        usuarioService.guardar(usuario);
-        return "redirect:registro?success=true";
+    public String guardar(Usuario usuario, RedirectAttributes redirect) {
+        Usuario usuarioExistente = null;
+        if (usuario.getIdUsuarios() != null) {
+            usuarioExistente = usuarioService.buscarPorId(usuario.getIdUsuarios());
+            if (usuarioExistente == null) {
+                redirect.addFlashAttribute("error", "Usuario no encontrado");
+                return "redirect:/registro";
+            }
+            // actualizar campos
+            usuarioExistente.setNombreUsuarios(usuario.getNombreUsuarios());
+            usuarioExistente.setEmail(usuario.getEmail());
+            usuarioExistente.setRol(rolService.buscarPorId(usuario.getRol().getIdroles()));
+            usuarioService.guardar(usuarioExistente);
+        } else {
+            // es un usuario nuevo
+            if (usuarioService.buscarPorEmail(usuario.getEmail()) != null) {
+                redirect.addFlashAttribute("error", "El correo ya está registrado");
+                return "redirect:/registro";
+            }
+            usuario.setRol(rolService.buscarPorId(usuario.getRol().getIdroles()));
+            usuarioService.guardar(usuario);
+        }
+
+        return "redirect:/registro?success=true";
     }
+
 
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
@@ -51,7 +72,7 @@ public class UsuarioController {
             return "redirect:/registro?error=not_found";
         }
         model.addAttribute("usuario", usuario);
-        return "AdminEmpleado/editarUsuario";
+        return "AdminEmpleado/editarUsuarios";
     }
 
     @GetMapping("/buscar")

@@ -13,4 +13,7 @@ public interface UsuarioService {
     List<Usuario> listar();
     List<Usuario> buscarvarioscampos(String filtro);
     Usuario buscarPorId(Integer id);
-}
+    public Usuario buscarPorEmail(String email);
+    }
+
+

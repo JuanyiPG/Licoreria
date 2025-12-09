@@ -18,5 +18,5 @@ public interface UsuarioRepositories extends JpaRepository<Usuario, Integer> {
     List<Usuario> bucarVariosCampos(@Param("filtro") String filtro);
 
 
-
+    Usuario findByEmail(String email);
 }
