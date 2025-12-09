@@ -14,7 +14,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 @Controller
-@RequestMapping("/factura-detalle")
+@RequestMapping("/FacturaDetalle")
 public class FacturaDetalleController {
 
     private final FacturaDetalleService facturaDetalleService;
