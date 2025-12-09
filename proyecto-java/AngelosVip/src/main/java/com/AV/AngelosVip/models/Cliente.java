@@ -1,9 +1,6 @@
 package com.AV.AngelosVip.models;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -17,6 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 public class Cliente {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_cliente")
     private Integer idCliente;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

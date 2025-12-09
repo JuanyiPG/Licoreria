@@ -19,6 +19,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class Factura {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_factura")
     private Integer idFactura;
     @DateTimeFormat(pattern = "yyyy-MM-dd")

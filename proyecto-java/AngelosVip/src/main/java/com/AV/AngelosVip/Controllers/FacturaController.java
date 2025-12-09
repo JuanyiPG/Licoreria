@@ -7,6 +7,7 @@ import com.AV.AngelosVip.service.UsuarioService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -22,9 +23,7 @@ public class FacturaController {
         this.usuarioService = usuarioService;
     }
 
-    // ----------------------------------------------------------
     // LISTAR TODAS LAS FACTURAS (orden ascendente)
-    // ----------------------------------------------------------
     @GetMapping()
     public String index(Model model) {
         List<Factura> facturas = facturaService.ordenAsc();
@@ -44,24 +43,49 @@ public class FacturaController {
         return "AdminEmpleado/Factura";
     }
 
-    // ----------------------------------------------------------
+
     // GUARDAR FACTURA
-    // ----------------------------------------------------------
     @PostMapping("/guardar")
-    public String guardar(@ModelAttribute Factura factura) {
+    public String guardar(@ModelAttribute Factura factura, RedirectAttributes redirect) {
+        Factura facturaExistente = null;
 
-        // Cargar correctamente el usuario desde BD
-        Usuario usuario = usuarioService.buscarPorId(factura.getUsuario().getIdUsuarios());
-        factura.setUsuario(usuario);
+        // Si es una factura existente
+        if (factura.getIdFactura() != null) {
+            facturaExistente = facturaService.buscarPorId(factura.getIdFactura());
+            if (facturaExistente == null) {
+                redirect.addFlashAttribute("error", "Factura no encontrada");
+                return "redirect:/factura";
+            }
+            // actualizar campos
+            facturaExistente.setFecha(factura.getFecha());
+            facturaExistente.setTotal(factura.getTotal());
 
-        facturaService.guardar(factura);
+            // cargar correctamente el usuario
+            Usuario usuario = usuarioService.buscarPorId(factura.getUsuario().getIdUsuarios());
+            if (usuario == null) {
+                redirect.addFlashAttribute("error", "Usuario no encontrado");
+                return "redirect:/factura";
+            }
+            facturaExistente.setUsuario(usuario);
+
+            facturaService.guardar(facturaExistente);
+        } else {
+            // nueva factura
+            Usuario usuario = usuarioService.buscarPorId(factura.getUsuario().getIdUsuarios());
+            if (usuario == null) {
+                redirect.addFlashAttribute("error", "Usuario no encontrado");
+                return "redirect:/factura";
+            }
+            factura.setUsuario(usuario);
+            facturaService.guardar(factura);
+        }
 
         return "redirect:/factura?success=true";
     }
 
-    // ----------------------------------------------------------
+
+
     // EDITAR FACTURA
-    // ----------------------------------------------------------
     @GetMapping("/editar/{id}")
     public String editar(@PathVariable Integer id, Model model) {
 
@@ -75,25 +99,30 @@ public class FacturaController {
         return "AdminEmpleado/editarFactura";
     }
 
-    // ----------------------------------------------------------
+
     // BUSCAR FACTURAS (estructura solicitada)
-    // ----------------------------------------------------------
     @GetMapping("/buscar")
-    public String buscar(@RequestParam String filtro, Model model) {
+    public String buscar(@RequestParam(name = "filtro", required = false) String filtro, Model model) {
 
-        List<Factura> lista = facturaService.allcampos(filtro);
+        List<Factura> facturas;
 
-        model.addAttribute("facturas", lista);
-        model.addAttribute("filtro", filtro);
-        model.addAttribute("factura", new Factura());
-        model.addAttribute("usuarios", usuarioService.listar());
+        if (filtro == null || filtro.isEmpty()) {
+            facturas = facturaService.listar(); // listar todas las facturas si no hay filtro
+        } else {
+            facturas = facturaService.allcampos(filtro); // filtrar por los campos deseados
+        }
+
+        model.addAttribute("facturas", facturas);          // lista de facturas para la tabla
+        model.addAttribute("factura", new Factura());      // objeto para el formulario
+        model.addAttribute("usuarios", usuarioService.listar()); // lista de usuarios si se necesita en formulario
+        model.addAttribute("filtro", filtro);             // para mostrar el filtro ingresado
 
         return "AdminEmpleado/Factura";
     }
 
-    // ----------------------------------------------------------
+
+
     // ELIMINAR FACTURA
-    // ----------------------------------------------------------
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {
         facturaService.Eliminar(id);
