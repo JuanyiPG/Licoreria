@@ -10,7 +10,7 @@ import java.util.List;
 public interface FacturaRepositories extends JpaRepository<Factura, Integer> {
     List<Factura> findAllByOrderByFechaAsc();
 
-    @Query("SELECT f FROM Factura f HWERE " +
+    @Query("SELECT f FROM Factura f WHERE " +
             "CAST(f.idFactura AS string) LIKE CONCAT('%', :filtro, '%') OR " +
             "CAST(f.fecha AS string) LIKE CONCAT('%', :filtro, '%') OR " +
             "CAST(f.metodo_pago AS string) LIKE CONCAT('%', :filtro, '%') OR " +
