@@ -51,7 +51,7 @@ public class FacturaController {
     public String guardar(@ModelAttribute Factura factura) {
 
         // Cargar correctamente el usuario desde BD
-        Usuario usuario = usuarioService.buscarPorId(factura.getUsuario().getId());
+        Usuario usuario = usuarioService.buscarPorId(factura.getUsuario().getIdUsuarios());
         factura.setUsuario(usuario);
 
         facturaService.guardar(factura);

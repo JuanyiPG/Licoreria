@@ -28,9 +28,7 @@ public class FacturaDetalleController {
         this.licorService = licorService;
     }
 
-    // ----------------------------------------------------------
     // LISTAR DETALLES
-    // ----------------------------------------------------------
     @GetMapping()
     public String index(Model model) {
 

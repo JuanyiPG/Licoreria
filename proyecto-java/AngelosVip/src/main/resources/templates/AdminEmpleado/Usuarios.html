@@ -106,6 +106,57 @@
       font-size: 18px;
     }
 
+        /* Contenedor general */
+#search {
+    display: flex;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* Formulario */
+#search form {
+    display: flex;
+    gap: 10px;
+}
+
+/* Input de texto */
+#searchInput {
+    padding: 10px 15px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #1e1e1e; /* fondo oscuro */
+    color: #eee; /* texto claro */
+    font-size: 16px;
+    outline: none;
+    transition: 0.3s;
+}
+
+#searchInput::placeholder {
+    color: #aaa; /* placeholder gris claro */
+}
+
+#searchInput:focus {
+    border-color: #ffc107; /* amarillo al enfocar */
+    box-shadow: 0 0 5px #ffc107;
+}
+
+/* Botón */
+#btnSearch {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #ffc107; /* amarillo */
+    color: #1e1e1e; /* texto oscuro */
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#btnSearch:hover {
+    background-color: #e0a800; /* amarillo más oscuro al pasar el mouse */
+}
+
+
     </style>
 </head>
 <body>
@@ -170,6 +221,13 @@
 <div id="successMessage" class="success-message">
     ✅ ¡Usuario registrado correctamente!
 </div>
+
+<div id="search" class="search">
+    <form th:action="@{/registro/buscar}" method="get">
+        <input type="text" name="buscar" placeholder="Ingrese el nombre del rol" id="searchInput">
+        <input type="submit" value="Buscar" id="btnSearch">
+    </form>
+</div>
 <!-- Tabla visual de empleados registrados -->
 <div class="container mt-5">
     <h2>Usuarios Registrados</h2>
@@ -187,9 +245,6 @@
                 <th>Acciones</th>
             </tr>
             </thead>
-            <tbody id="employeeTableBody">
-            <!-- Aquí agregaremos las nuevas filas con JS -->
-            </tbody>
             <tbody>
             <tr th:each="r : ${usuarios}">
                 <td th:text="${r.idUsuarios}"></td>
@@ -204,6 +259,9 @@
                     <a class="btn-accion" th:href="@{'/registro/editar/' + ${r.idUsuarios}}">Actualizar</a>
                     <a class="btn-eliminar" th:href="@{'/registro/eliminar/' + ${r.idUsuarios}}" style="margin-top: 10px">Eliminar</a>
                 </td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(usuarios)}">
+                <td colspan="3">No se encontraron resultados</td>
             </tr>
             </tbody>
         </table>

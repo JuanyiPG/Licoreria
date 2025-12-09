@@ -80,15 +80,15 @@ public class UsuarioController {
         List<Usuario> usuarios;
         if (filtro == null || filtro.isEmpty()) {
             usuarios = usuarioService.listar();
-            model.addAttribute("usuarios", usuarios);
         } else {
             usuarios = usuarioService.buscarvarioscampos(filtro);
-            model.addAttribute("usuarios", usuarios);
         }
-        model.addAttribute("usuario", new Usuario());
-        model.addAttribute("usuario", usuarioService.listar());
+        model.addAttribute("usuarios", usuarios);       // la lista va en "usuarios"
+        model.addAttribute("usuario", new Usuario());   // el formulario usa este objeto
+        model.addAttribute("roles", rolService.listar()); // si usas roles en el formulario
         return "AdminEmpleado/Usuarios";
     }
+
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Integer id) {

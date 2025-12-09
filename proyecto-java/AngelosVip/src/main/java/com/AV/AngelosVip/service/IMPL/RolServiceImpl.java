@@ -39,7 +39,7 @@ public class RolServiceImpl implements RolService {
 
     @Override
     public List<Rol> buscarvarioscampos(String filtro) {
-        return rolRepositorio.bucarVariosCampos(filtro);
+        return rolRepositorio.buscarVariosCampos(filtro);
     }
 
     @Override
