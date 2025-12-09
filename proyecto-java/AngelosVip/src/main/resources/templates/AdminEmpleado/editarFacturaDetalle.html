@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            background-color: #1f1f1f;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: gold;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        input, select {
+            width: 100%;
+            padding: 12px;
+            background-color: #2c2c2c;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 5px;
+        }
+        input::placeholder {
+            color: #aaa;
+        }
+        button {
+            background-color: gold;
+            color: #121212;
+            padding: 12px 20px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e6c200;
+        }
+        #search {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        #search form {
+            display: flex;
+            gap: 10px;
+        }
+        #searchInput {
+            padding: 10px 15px;
+            border: 1px solid #444;
+            border-radius: 5px;
+            background-color: #1e1e1e;
+            color: #eee;
+            font-size: 16px;
+            outline: none;
+        }
+        #searchInput::placeholder {
+            color: #aaa;
+        }
+        #searchInput:focus {
+            border-color: #ffc107;
+            box-shadow: 0 0 5px #ffc107;
+        }
+        #btnSearch {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #ffc107;
+            color: #1e1e1e;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        #btnSearch:hover {
+            background-color: #e0a800;
+        }
+        .success-message {
+            display: none;
+            background-color: #2c2c2c;
+            color: gold;
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 18px;
+        }
+        .table-warning {
+            background-color: gold !important;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Editar Detalle de Factura</h2>
+    <form th:action="@{/factura-detalle/guardar}" method="post" th:object="${facturaDetalle}">
+        <div class="form-group">
+            <label for="factura">Factura</label>
+            <select id="factura" th:field="*{factura.idFactura}" required>
+                <option th:each="f : ${facturas}" th:value="${f.idFactura}" th:text="${f.idFactura} + ' - ' + ${f.fecha}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="licor">Licor</label>
+            <select id="licor" th:field="*{licor.idLicor}" required>
+                <option th:each="l : ${licores}" th:value="${l.idLicor}" th:text="${l.nombreLicor}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <button type="submit">Guardar Detalle</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
